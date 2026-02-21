@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -38,14 +39,26 @@ public class PlayerScript : MonoBehaviour
         playerInput.actions["Jump"].performed += Dash;
     }
 
+    private void Start()
+    {
+        rb.gravityScale = gravityScale;
+    }
+
     private void Update()
     {
         moveDirection = playerInput.actions["Move"].ReadValue<Vector2>();
     }
 
-    private void Start()
+    void LateUpdate()
     {
-        rb.gravityScale = gravityScale;
+        Vector3 pos = transform.position;
+
+        Vector3 left = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 right = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0));
+
+        pos.x = Mathf.Clamp(pos.x, left.x + transform.localScale.x / 2f, right.x - transform.localScale.x / 2f);
+
+        transform.position = pos;
     }
 
     private void FixedUpdate()
