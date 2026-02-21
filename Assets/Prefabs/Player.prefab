@@ -147,6 +147,7 @@ MonoBehaviour:
   arrowDistance: 1.5
   gravityScale: 3
   gravityScalingFactor: 2
+  lightningForce: 1
 --- !u!114 &6346625502024011729
 MonoBehaviour:
   m_ObjectHideFlags: 0

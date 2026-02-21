@@ -376,7 +376,9 @@ namespace DigitalRuby.LightningBolt
         {
             if (collision.CompareTag("Player"))
             {
-                Debug.Log("Lightning hit!");
+                // Debug.Log("Lightning hit!");
+                collision.GetComponent<PlayerScript>().LightningHit();
+                Destroy(gameObject);
             }
         }
     }

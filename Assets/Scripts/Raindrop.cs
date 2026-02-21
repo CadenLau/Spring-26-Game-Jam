@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 
 public class Raindrop : MonoBehaviour
 {
-    [SerializeField] private String groundLayerTag; 
+    [SerializeField] private string groundLayerTag; 
 
     void OnTriggerEnter2D(Collider2D other)
     {

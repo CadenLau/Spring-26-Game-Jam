@@ -1,8 +1,8 @@
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class PlayerScript : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
@@ -28,6 +28,9 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField] private float gravityScale;
     [SerializeField] private float gravityScalingFactor;
+
+    [SerializeField] private float lightningForce;
+    private bool isStunned;
 
     private void Awake()
     {
@@ -63,7 +66,7 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isDashing) return;
+        if (isDashing || isStunned) return;
 
         float targetSpeed = moveDirection.x * moveSpeed;
         float speedDiff = targetSpeed - rb.linearVelocity.x;
@@ -108,7 +111,7 @@ public class PlayerScript : MonoBehaviour
 
     private void Dash(InputAction.CallbackContext context)
     {
-        if (!canDash || isChoosingDirection) return;
+        if (!canDash || isChoosingDirection || isStunned) return;
 
         StartCoroutine(DashCoroutine());
     }
@@ -172,5 +175,19 @@ public class PlayerScript : MonoBehaviour
         yield return new WaitForSeconds(dashDuration);
 
         isDashing = false;
+    }
+
+    public void LightningHit()
+    {
+        isStunned = true;
+        moveDirection = Vector2.zero;
+        GetComponent<SpriteRenderer>().color = Color.yellow; // Change color to indicate stun
+        Invoke(nameof(EndStun), 1f);
+    }
+
+    private void EndStun()
+    {
+        isStunned = false;
+        GetComponent<SpriteRenderer>().color = Color.white; // Revert color
     }
 }

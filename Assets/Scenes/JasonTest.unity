@@ -333,6 +333,10 @@ PrefabInstance:
       propertyPath: warningWidth
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 5316939573336667384, guid: f508d00699eaf1c4c9100a236fa479eb, type: 3}
+      propertyPath: lightningEndY
+      value: -3
+      objectReference: {fileID: 0}
     - target: {fileID: 5833186467113543473, guid: f508d00699eaf1c4c9100a236fa479eb, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -396,6 +400,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4052158291316502688, guid: c3081b3a5da099e43871db98ff39d3af, type: 3}
       propertyPath: m_Name
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 4052158291316502688, guid: c3081b3a5da099e43871db98ff39d3af, type: 3}
+      propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 5514303003102185237, guid: c3081b3a5da099e43871db98ff39d3af, type: 3}
