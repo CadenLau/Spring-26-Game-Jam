@@ -75,6 +75,11 @@ public class PlayerScript : MonoBehaviour
         canDash = true;
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        canDash = true;
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         canDash = false;
