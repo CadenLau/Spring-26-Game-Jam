@@ -111,7 +111,7 @@ public class PlayerScript : MonoBehaviour
         rb.simulated = false;
 
         // Slow time (a lot)
-        Time.timeScale = 0.05f;
+        Time.timeScale = 0.03f;
 
         float timer = 0f;
 
