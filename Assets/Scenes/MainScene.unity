@@ -169,7 +169,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 34
-    OrthographicSize: 5
+    OrthographicSize: 7
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -196,7 +196,7 @@ Transform:
   m_GameObject: {fileID: 338735788}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.85, z: -5}
+  m_LocalPosition: {x: 0, y: -1.0500002, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -430,7 +430,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5.0703125
+  orthographic size: 7.109375
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -455,7 +455,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.85, z: -5}
+  m_LocalPosition: {x: 0, y: -1.0500002, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -701,7 +701,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &2031576175
 SpriteRenderer:
   serializedVersion: 2
@@ -1023,7 +1023,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 446389151939619248, guid: 6835d386705c24bba92622466dc34430, type: 3}
       propertyPath: m_Radius
-      value: 1
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 2766186241530944611, guid: 6835d386705c24bba92622466dc34430, type: 3}
       propertyPath: m_Name
@@ -1068,6 +1068,22 @@ PrefabInstance:
     - target: {fileID: 4048629809501397988, guid: 6835d386705c24bba92622466dc34430, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119854325737234623, guid: 6835d386705c24bba92622466dc34430, type: 3}
+      propertyPath: stunTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119854325737234623, guid: 6835d386705c24bba92622466dc34430, type: 3}
+      propertyPath: dashSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119854325737234623, guid: 6835d386705c24bba92622466dc34430, type: 3}
+      propertyPath: accelSpeed
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119854325737234623, guid: 6835d386705c24bba92622466dc34430, type: 3}
+      propertyPath: maxFallSpeed
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

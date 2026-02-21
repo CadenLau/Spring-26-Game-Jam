@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4050d54345446894c8c20f46c0de2dc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  spawnRate: 0.25
+  spawnRate: 0.2
   spawnRateRange: 0.1
   lightningSpawnRate: 0.75
   lightningSpawnRateRange: 0.25

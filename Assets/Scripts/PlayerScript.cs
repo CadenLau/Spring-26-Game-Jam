@@ -12,6 +12,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private float accelSpeed;
     [SerializeField] private float decelSpeed;
     [SerializeField] private float dashSpeed;
+    [SerializeField] private float maxFallSpeed = 20f;
 
     private Vector2 dashDirection;
     private bool canDash = false;
@@ -29,7 +30,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private float gravityScale;
     [SerializeField] private float gravityScalingFactor;
 
-    [SerializeField] private float lightningForce;
+    [SerializeField] private float stunTime = 1f;
     private bool isStunned;
 
     private void Awake()
@@ -66,6 +67,10 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (rb.linearVelocityY < -maxFallSpeed)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocityX, -maxFallSpeed);
+        }
         if (isDashing || isStunned) return;
 
         float targetSpeed = moveDirection.x * moveSpeed;
@@ -182,7 +187,7 @@ public class PlayerScript : MonoBehaviour
         isStunned = true;
         moveDirection = Vector2.zero;
         GetComponent<SpriteRenderer>().color = Color.yellow; // Change color to indicate stun
-        Invoke(nameof(EndStun), 1f);
+        Invoke(nameof(EndStun), stunTime);
     }
 
     private void EndStun()

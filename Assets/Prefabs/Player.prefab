@@ -138,16 +138,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   rb: {fileID: 2905687903248202093}
   moveSpeed: 20
-  accelSpeed: 200
+  accelSpeed: 120
   decelSpeed: 200
   dashSpeed: 20
+  maxFallSpeed: 25
   dashPauseDuration: 1
   dashDuration: 0.2
   arrowTransform: {fileID: 2828981645376443868}
   arrowDistance: 1.5
   gravityScale: 3
-  gravityScalingFactor: 2
-  lightningForce: 1
+  gravityScalingFactor: 1.5
+  stunTime: 1.5
 --- !u!114 &6346625502024011729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +214,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.4
 --- !u!70 &6149247978789762056
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
