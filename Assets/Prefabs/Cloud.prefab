@@ -107,7 +107,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   spawnRate: 0.25
   spawnRateRange: 0.1
+  lightningSpawnRate: 0.75
+  lightningSpawnRateRange: 0.25
+  lightningEndY: 0
+  warningWidth: 0.01
+  warningDelay: 0.5
   raindrop: {fileID: 2841180223781229977, guid: f7eeeed1a6f407c4a8fc69210b00db2d, type: 3}
+  lightning: {fileID: 106988, guid: a9892f6a83fd8d4468ce0c8a3d09d3cd, type: 3}
+  warningBox: {fileID: 6713811540873282316, guid: 7ba070f01b2f6cb42a32dd4bc9f1ec17, type: 3}
 --- !u!61 &513143970009864954
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -138,7 +145,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
