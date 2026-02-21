@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 635747375296078460}
   - component: {fileID: 205855765275360898}
   - component: {fileID: 5295582844043055323}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Rain Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aff54fc499824554adca0711f539009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  spawnRate: 0.01
-  spawnRateRange: 0.005
+  spawnRate: 0.005
+  spawnRateRange: 0.002
   raindrop: {fileID: 918055901755641425, guid: f37f631897eba45918f34f330c12f27f, type: 3}
 --- !u!61 &5295582844043055323
 BoxCollider2D:
@@ -92,5 +92,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 70, y: 1}
+  m_Size: {x: 72, y: 1}
   m_EdgeRadius: 0
