@@ -269,12 +269,16 @@ PrefabInstance:
       value: Cloud
       objectReference: {fileID: 0}
     - target: {fileID: 5833186467113543473, guid: f508d00699eaf1c4c9100a236fa479eb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5833186467113543473, guid: f508d00699eaf1c4c9100a236fa479eb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5833186467113543473, guid: f508d00699eaf1c4c9100a236fa479eb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5833186467113543473, guid: f508d00699eaf1c4c9100a236fa479eb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -308,6 +312,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6258876398947438118, guid: f508d00699eaf1c4c9100a236fa479eb, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3349391187094723686, guid: 7c1450ed1ee054b33ba93ddb120b1d1b, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
