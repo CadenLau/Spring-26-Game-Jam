@@ -10,25 +10,31 @@ public class RainSpawnScript : MonoBehaviour
 
     private float minX;
     private float maxX;
-    private float nextSpawnTime;
+    private float spawnTimer;
 
     private void Start()
     {
         BoxCollider2D collider = GetComponent<BoxCollider2D>();
         minX = collider.bounds.min.x; 
         maxX = collider.bounds.max.x; 
-        nextSpawnTime = Random.Range(spawnRate - spawnRateRange, 
-            spawnRate + spawnRateRange);
+        ResetSpawnTimer();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (Time.time >= nextSpawnTime) 
+        spawnTimer -= Time.fixedDeltaTime;
+
+        if (spawnTimer <= 0) 
         {
-            nextSpawnTime = Time.time + Random.Range(spawnRate - spawnRateRange, 
-                spawnRate + spawnRateRange);
+            ResetSpawnTimer();
             SpawnRaindrop();
         }
+    }
+
+    private void ResetSpawnTimer()
+    {
+        spawnTimer = Random.Range(spawnRate - spawnRateRange, 
+            spawnRate + spawnRateRange);
     }
 
     private void SpawnRaindrop()

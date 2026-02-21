@@ -8,6 +8,8 @@ TagManager:
   - Lightning
   - Bird
   - Raindrop
+  - Wind
+  - Cloud
   layers:
   - Default
   - TransparentFX

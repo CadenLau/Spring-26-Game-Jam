@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,13 +26,19 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private Transform arrowTransform;
     [SerializeField] private float arrowDistance = 1.5f;
 
-    private PlayerInput playerInput;
-
     [SerializeField] private float gravityScale;
     [SerializeField] private float gravityScalingFactor;
 
     [SerializeField] private float stunTime = 1f;
     private bool isStunned;
+
+    [SerializeField] private float windForce = 5f;
+    private bool applyWind;
+
+    [SerializeField] private EndUIScript endUIScript;
+
+    private PlayerInput playerInput;
+    public PlayerInput Input => playerInput;
 
     private void Awake()
     {
@@ -71,6 +78,10 @@ public class PlayerScript : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocityX, -maxFallSpeed);
         }
+        if (applyWind)
+        {
+            rb.AddForce(new Vector2(windForce, 0), ForceMode2D.Force);
+        }
         if (isDashing || isStunned) return;
 
         float targetSpeed = moveDirection.x * moveSpeed;
@@ -94,11 +105,32 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Cloud"))
+        {
+            // Trigger win
+            GetComponent<SpriteRenderer>().enabled = false; // Hide player sprite
+            enabled = false; // Disable player control
+            rb.linearVelocity = Vector2.zero; // Stop player movement
+            rb.gravityScale = 0; // Disable gravity
+            endUIScript.ShowEndScreen();
+        } 
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Ground") || collision.CompareTag("Raindrop"))
         {
                     canDash = true;
+        } 
+        else if (collision.CompareTag("Lightning"))
+        {
+            LightningHit();
+        } 
+        else if (collision.CompareTag("Wind"))
+        {
+            applyWind = true;
         }
     }
 
@@ -107,6 +139,10 @@ public class PlayerScript : MonoBehaviour
         if (collision.CompareTag("Ground") || collision.CompareTag("Raindrop"))
         {
                     canDash = true;
+        } 
+        else if (collision.CompareTag("Wind"))
+        {
+            applyWind = true;
         }
     }
 
@@ -115,6 +151,10 @@ public class PlayerScript : MonoBehaviour
         if (collision.CompareTag("Ground") || collision.CompareTag("Raindrop"))
         {
                     canDash = false;
+        } 
+        else if (collision.CompareTag("Wind"))
+        {
+            applyWind = false;
         }
     }
 

@@ -18,5 +18,4 @@ public class Raindrop : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
 }

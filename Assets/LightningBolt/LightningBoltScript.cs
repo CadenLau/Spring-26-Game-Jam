@@ -371,15 +371,5 @@ namespace DigitalRuby.LightningBolt
                 }
             }
         }
-
-        public void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Player"))
-            {
-                // Debug.Log("Lightning hit!");
-                collision.GetComponent<PlayerScript>().LightningHit();
-                Destroy(gameObject);
-            }
-        }
     }
 }

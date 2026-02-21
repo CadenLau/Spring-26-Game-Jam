@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feea7922b1f3685489a874037e86c159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BirdSpawnerRight
-  spawnX: 20
+  spawnX: 31
   minY: 0
   maxY: 20
   spawnRate: 1.5

@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Cloud : MonoBehaviour
 {   
-    [SerializeField] private float spawnRate;
-    [SerializeField] private float spawnRateRange;
+    [SerializeField] private float rainSpawnRate;
+    [SerializeField] private float rainSpawnRateRange;
     [SerializeField] private float lightningSpawnRate;
     [SerializeField] private float lightningSpawnRateRange;
     [SerializeField] private float lightningEndY;
@@ -22,8 +22,7 @@ public class Cloud : MonoBehaviour
 
     private float minX;
     private float maxX;
-    private float nextSpawnTime;
-
+    private float nextRainSpawnTime;
     private float nextLightningSpawnTime;
 
     private void Start()
@@ -31,16 +30,16 @@ public class Cloud : MonoBehaviour
         BoxCollider2D cloudCollider = GetComponent<BoxCollider2D>();
         minX = transform.position.x - cloudCollider.bounds.size.x / 2f; 
         maxX = transform.position.x + cloudCollider.bounds.size.x / 2f; 
-        nextSpawnTime = Random.Range(spawnRate - (spawnRateRange / 2), 
-            spawnRate + (spawnRateRange / 2));
+        nextRainSpawnTime = Random.Range(rainSpawnRate - (rainSpawnRateRange / 2), 
+            rainSpawnRate + (rainSpawnRateRange / 2));
     }
 
     private void Update()
     {
-        if (Time.time >= nextSpawnTime) 
+        if (Time.time >= nextRainSpawnTime) 
         {
-            nextSpawnTime = Time.time + Random.Range(spawnRate - (spawnRateRange / 2), 
-                spawnRate + (spawnRateRange / 2));
+            nextRainSpawnTime = Time.time + Random.Range(rainSpawnRate - (rainSpawnRateRange / 2), 
+                rainSpawnRate + (rainSpawnRateRange / 2));
             SpawnRaindrop();
         }
         if (Time.time >= nextLightningSpawnTime) 
@@ -57,10 +56,6 @@ public class Cloud : MonoBehaviour
         // Instantiate the object at the spawner's position and rotation
         Instantiate(raindrop, new Vector2(Random.Range(minX, maxX), transform.position.y), 
             transform.rotation);
-
-        // You can store the newly created object in a variable to access its components
-        // GameObject spawnedObject = Instantiate(objectToSpawnPrefab, transform.position, transform.rotation);
-        // spawnedObject.GetComponent<Rigidbody>().velocity = Vector3.forward * speed;
     }
 
     private async void SpawnLightning()
@@ -76,16 +71,14 @@ public class Cloud : MonoBehaviour
         indicatorScript.maxY = transform.position.y;
 
         await Awaitable.WaitForSecondsAsync(warningDelay);
+
+        if (this == null) return; // object was destroyed
+
         // Instantiate the object at the spawner's position and rotation
         GameObject newLightning = Instantiate(lightning, Vector2.zero, transform.rotation);
         LightningBoltScript lightningScript = newLightning.GetComponent<LightningBoltScript>();
   
         lightningScript.start = new Vector2(minLightningX, transform.position.y);
         lightningScript.end = new Vector2(maxLightningX, lightningEndY);
-
-        // lightningScript.minX = minX;
-        // lightningScript.maxX = maxX;
-        // lightningScript.cloudY = transform.position.y;
-        // lightningScript.endY = lightningEndY;
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1972866715162751779}
   m_Layer: 0
   m_Name: SimpleLightningBoltPrefab
-  m_TagString: Untagged
+  m_TagString: Lightning
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,7 +168,7 @@ MonoBehaviour:
   start: {x: 0, y: 0}
   end: {x: 0, y: 0}
   lifetime: 0.4
-  colliderWidth: 0.2
+  colliderWidth: 0.4
   Generations: 3
   Duration: 0.133
   ChaosFactor: 0.075

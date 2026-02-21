@@ -8,7 +8,6 @@ public class Bird : MonoBehaviour
 
     private Vector3 moveDirection;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (transform.rotation.eulerAngles.y == 180)
@@ -21,7 +20,6 @@ public class Bird : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (transform.position.x < leftBound  || transform.position.x > rightBound)
