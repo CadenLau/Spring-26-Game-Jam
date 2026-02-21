@@ -1,6 +1,3 @@
-using System;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,7 +15,13 @@ public class PlayerScript : MonoBehaviour
     private Vector2 dashDirection;
     private bool canDash = false;
     private bool isDashing;
+    [SerializeField] private float dashPauseDuration = 1f;
+    [SerializeField] private float dashDuration = 0.2f;
+    private bool isChoosingDirection;
+    private float originalGravity;
 
+    [SerializeField] private Transform arrowTransform;
+    [SerializeField] private float arrowDistance = 1.5f;
 
     private PlayerInput playerInput;
 
@@ -92,22 +95,69 @@ public class PlayerScript : MonoBehaviour
 
     private void Dash(InputAction.CallbackContext context)
     {
-        if (!canDash) return;
+        if (!canDash || isChoosingDirection) return;
 
-        Vector2 mouseScreenPos = playerInput.actions["Look"].ReadValue<Vector2>();
-        Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
-
-        Vector2 direction = (mouseWorldPos - (Vector2)transform.position).normalized;
-
-        isDashing = true;
-
-        rb.linearVelocity = direction * dashSpeed;
-
-        Invoke(nameof(EndDash), 0.2f);
+        StartCoroutine(DashCoroutine());
     }
 
-    private void EndDash()
+    private System.Collections.IEnumerator DashCoroutine()
     {
+        isChoosingDirection = true;
+
+        // Freeze physics
+        originalGravity = rb.gravityScale;
+        rb.gravityScale = 0;
+        rb.linearVelocity = Vector2.zero;
+        rb.simulated = false;
+
+        // Slow time (a lot)
+        Time.timeScale = 0.05f;
+
+        float timer = 0f;
+
+        arrowTransform.gameObject.SetActive(true);
+        Vector2 direction = Vector2.right;
+
+        // Wait for player to choose direction or dash immediately if they press again
+        while (timer < dashPauseDuration)
+        {
+            // Get direction
+            Vector2 mouseScreenPos = playerInput.actions["Look"].ReadValue<Vector2>();
+            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+
+            direction = (mouseWorldPos - (Vector2)transform.position).normalized;
+
+            // Rotate arrow
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            arrowTransform.rotation = Quaternion.Euler(0, 0, angle);
+
+            // Position arrow
+            arrowTransform.position = transform.position + (Vector3)(direction * arrowDistance);
+
+            // Dash immediately if player presses again
+            if (playerInput.actions["Jump"].WasPressedThisFrame() && timer > 0.1f)
+                break;
+
+            timer += Time.unscaledDeltaTime;
+
+            yield return null;
+        }
+
+        arrowTransform.gameObject.SetActive(false);
+
+        // Resume time
+        Time.timeScale = 1f;
+
+        isChoosingDirection = false;
+        isDashing = true;
+
+        // Unfreeze physics
+        rb.gravityScale = originalGravity;
+        rb.linearVelocity = direction * dashSpeed;
+        rb.simulated = true;
+
+        yield return new WaitForSeconds(dashDuration);
+
         isDashing = false;
     }
 }
