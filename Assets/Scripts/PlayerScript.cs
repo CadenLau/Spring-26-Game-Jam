@@ -96,17 +96,26 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        canDash = true;
+        if (collision.CompareTag("Ground") || collision.CompareTag("Raindrop"))
+        {
+                    canDash = true;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        canDash = true;
+        if (collision.CompareTag("Ground") || collision.CompareTag("Raindrop"))
+        {
+                    canDash = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        canDash = false;
+        if (collision.CompareTag("Ground") || collision.CompareTag("Raindrop"))
+        {
+                    canDash = false;
+        }
     }
 
     private void OnDisable()
@@ -117,7 +126,6 @@ public class PlayerScript : MonoBehaviour
     private void Dash(InputAction.CallbackContext context)
     {
         if (!canDash || isChoosingDirection || isStunned) return;
-
         StartCoroutine(DashCoroutine());
     }
 

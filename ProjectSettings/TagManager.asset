@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - Lightning
+  - Bird
+  - Raindrop
   layers:
   - Default
   - TransparentFX
