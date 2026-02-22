@@ -173,7 +173,7 @@
                 {
                     "name": "",
                     "id": "94e6cce2-1ef5-40dd-ac16-f75060376337",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Keyboard>/anyKey",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
