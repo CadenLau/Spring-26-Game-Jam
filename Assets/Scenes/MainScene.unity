@@ -1260,6 +1260,14 @@ PrefabInstance:
       propertyPath: lightningEndY
       value: 56
       objectReference: {fileID: 0}
+    - target: {fileID: 5316939573336667384, guid: f508d00699eaf1c4c9100a236fa479eb, type: 3}
+      propertyPath: rainSpawnRate
+      value: 0.175
+      objectReference: {fileID: 0}
+    - target: {fileID: 5316939573336667384, guid: f508d00699eaf1c4c9100a236fa479eb, type: 3}
+      propertyPath: rainSpawnRateRange
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 5833186467113543473, guid: f508d00699eaf1c4c9100a236fa479eb, type: 3}
       propertyPath: m_LocalScale.x
       value: 3
