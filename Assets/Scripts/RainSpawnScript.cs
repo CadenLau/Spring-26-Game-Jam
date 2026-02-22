@@ -8,12 +8,17 @@ public class RainSpawnScript : MonoBehaviour
 
     public GameObject raindrop;
 
+    public GameObject rainPool;
+
+    private BirdPool poolScript;
+
     private float minX;
     private float maxX;
     private float spawnTimer;
 
     private void Start()
     {
+        poolScript = rainPool.GetComponent<BirdPool>();
         BoxCollider2D collider = GetComponent<BoxCollider2D>();
         minX = collider.bounds.min.x; 
         maxX = collider.bounds.max.x; 
@@ -39,7 +44,9 @@ public class RainSpawnScript : MonoBehaviour
 
     private void SpawnRaindrop()
     {
-        Instantiate(raindrop, new Vector2(Random.Range(minX, maxX), transform.position.y), 
-            transform.rotation);
+        // Instantiate(raindrop, new Vector2(Random.Range(minX, maxX), transform.position.y), 
+        //     transform.rotation);
+        poolScript.spawnFromPool(new Vector2(Random.Range(minX, maxX), transform.position.y), Quaternion.identity);
+
     }
 }

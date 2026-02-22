@@ -20,6 +20,7 @@ public class Cloud : MonoBehaviour
     // [SerializeField] private float unbalancedRainSpawnRate = 0.2f;
 
     [SerializeField] private GameObject raindrop;
+    [SerializeField] private GameObject rainPool;
     [SerializeField] private GameObject lightning;
     [SerializeField] private GameObject warningBox;
 
@@ -28,8 +29,11 @@ public class Cloud : MonoBehaviour
     private float nextRainSpawnTime;
     private float nextLightningSpawnTime;
 
+    private BirdPool poolScript;
+
     private void Start()
     {
+        poolScript = rainPool.GetComponent<BirdPool>();
         BoxCollider2D cloudCollider = GetComponent<BoxCollider2D>();
         minX = transform.position.x - cloudCollider.bounds.size.x / 2f; 
         maxX = transform.position.x + cloudCollider.bounds.size.x / 2f; 
@@ -74,8 +78,9 @@ public class Cloud : MonoBehaviour
         sections.RemoveAt(getSection);
         
         // Instantiate the object at the spawner's position and rotation
-        Instantiate(raindrop, new Vector2(UnityEngine.Random.Range(minX + width * (section / allSections.Count), minX + width * ((section + 1) / allSections.Count)), transform.position.y), 
-            transform.rotation);
+        // Instantiate(raindrop, new Vector2(UnityEngine.Random.Range(minX + width * (section / allSections.Count), minX + width * ((section + 1) / allSections.Count)), transform.position.y), 
+        //     transform.rotation);
+        poolScript.spawnFromPool(new Vector2(UnityEngine.Random.Range(minX + width * (section / allSections.Count), minX + width * ((section + 1) / allSections.Count)), transform.position.y), Quaternion.identity);
     }
 
     private async void SpawnLightning()

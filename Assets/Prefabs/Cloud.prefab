@@ -114,8 +114,10 @@ MonoBehaviour:
   warningWidth: 0.01
   warningDelay: 0.5
   raindrop: {fileID: 2841180223781229977, guid: f7eeeed1a6f407c4a8fc69210b00db2d, type: 3}
+  rainPool: {fileID: 546476052118279440, guid: 325b6b944ca5d8545be726e86df7c2af, type: 3}
   lightning: {fileID: 106988, guid: a9892f6a83fd8d4468ce0c8a3d09d3cd, type: 3}
   warningBox: {fileID: 6713811540873282316, guid: 7ba070f01b2f6cb42a32dd4bc9f1ec17, type: 3}
+  unbalancedRainSpawnRate: 0.2
 --- !u!61 &513143970009864954
 BoxCollider2D:
   m_ObjectHideFlags: 0

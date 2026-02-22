@@ -41,6 +41,10 @@ public class PlayerScript : MonoBehaviour
     private PlayerInput playerInput;
     public PlayerInput Input => playerInput;
 
+    private AudioSource sound;
+    [SerializeField] private AudioClip dashSound;
+    [SerializeField] private AudioClip shockSound;
+
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -54,6 +58,7 @@ public class PlayerScript : MonoBehaviour
     private void Start()
     {
         rb.gravityScale = gravityScale;
+        sound = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -242,7 +247,8 @@ public class PlayerScript : MonoBehaviour
 
         isChoosingDirection = false;
         isDashing = true;
-
+        // Play sound
+        sound.PlayOneShot(dashSound);
         // Unfreeze physics
         rb.gravityScale = originalGravity;
         rb.linearVelocity = direction * dashSpeed;
@@ -255,6 +261,7 @@ public class PlayerScript : MonoBehaviour
 
     public void LightningHit()
     {
+        sound.PlayOneShot(shockSound);
         isStunned = true;
         moveDirection = Vector2.zero;
         GetComponent<SpriteRenderer>().color = Color.yellow; // Change color to indicate stun

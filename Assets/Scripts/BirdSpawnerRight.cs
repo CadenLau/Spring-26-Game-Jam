@@ -9,13 +9,16 @@ public class BirdSpawnerRight : MonoBehaviour
     [SerializeField] private float spawnRate;
     [SerializeField] private float spawnRateRange;
 
-    public GameObject bird;
+    // public GameObject bird;
+    public GameObject pool;
+
+    private BirdPool poolScript;
 
     private float nextSpawnTime;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        poolScript = pool.GetComponent<BirdPool>();
     }
 
     // Update is called once per frame
@@ -31,7 +34,9 @@ public class BirdSpawnerRight : MonoBehaviour
 
     void SpawnBird()
     {
-        Instantiate(bird, new Vector2(spawnX, Random.Range(minY, maxY)), 
-            Quaternion.Euler(0, 0, 0));
+        // Instantiate(bird, new Vector2(spawnX, Random.Range(minY, maxY)), 
+        //     Quaternion.Euler(0, 180, 0));
+        poolScript.spawnFromPool(new Vector2(spawnX, Random.Range(minY, maxY)), 
+        Quaternion.Euler(0, 0, 0));
     }
 }

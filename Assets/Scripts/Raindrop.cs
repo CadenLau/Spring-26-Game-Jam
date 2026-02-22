@@ -15,7 +15,8 @@ public class Raindrop : MonoBehaviour
     {
         if (other.gameObject.CompareTag(groundLayerTag))
         {
-            Destroy(gameObject);
+            // Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
