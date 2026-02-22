@@ -95,6 +95,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Unbalanced",
+                    "type": "Button",
+                    "id": "42c656c0-630b-4eac-b3d4-0503369be63c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -497,11 +506,22 @@
                 {
                     "name": "",
                     "id": "5b06c4d2-48ef-4f77-9f8d-43c01c68853c",
-                    "path": "<Keyboard>/anyKey",
+                    "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "64b1e8ba-cf2d-4092-bc16-0de9e51cedbb",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Unbalanced",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
