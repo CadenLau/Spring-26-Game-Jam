@@ -312,7 +312,8 @@ namespace DigitalRuby.LightningBolt
             // float finishY = endY;
             // start = new Vector2(startX, startY);
             // end = new Vector2(endX, finishY);
-      
+
+            GetComponent<BoxCollider2D>().enabled = false;
         }
 
         private void Update()
@@ -338,6 +339,9 @@ namespace DigitalRuby.LightningBolt
         /// </summary>
         public void Trigger()
         {
+            if (start == end)
+                return;
+
             // Vector2 start, end;
             timer = Duration + Mathf.Min(0.0f, timer);
             // float startX = Random.Range(minX, maxX);
@@ -348,6 +352,7 @@ namespace DigitalRuby.LightningBolt
             // start = new Vector2(startX, startY);
             // end = new Vector2(endX, finishY);
             BoxCollider2D collider = gameObject.GetComponent<BoxCollider2D>();
+            collider.enabled = true;
             collider.offset = new Vector2(start.x, (start.y + end.y) / 2);
             collider.size = new Vector2(colliderWidth, (start.y - end.y));
             startIndex = 0;

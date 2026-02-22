@@ -1,6 +1,7 @@
 using DigitalRuby.LightningBolt;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider2D))]
 public class Cloud : MonoBehaviour
 {   
     [SerializeField] private float rainSpawnRate;
