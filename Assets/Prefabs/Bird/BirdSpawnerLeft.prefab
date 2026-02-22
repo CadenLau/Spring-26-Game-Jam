@@ -49,4 +49,4 @@ MonoBehaviour:
   maxY: 20
   spawnRate: 1.5
   spawnRateRange: 0.25
-  bird: {fileID: 3434529127811439729, guid: fa95645f328263b4d99873e26cbd2648, type: 3}
+  pool: {fileID: 546476052118279440, guid: e5c33fd9c9e250e43b7147bdec36b3ca, type: 3}

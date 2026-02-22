@@ -26,9 +26,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 581992006461702076}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 7, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2, y: -3.3333335, z: 0}
+  m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -48,6 +48,7 @@ MonoBehaviour:
   spawnRate: 0.005
   spawnRateRange: 0.002
   raindrop: {fileID: 918055901755641425, guid: f37f631897eba45918f34f330c12f27f, type: 3}
+  rainPool: {fileID: 546476052118279440, guid: 99fc8e2c392331c42a2fd7adab26df40, type: 3}
 --- !u!61 &5295582844043055323
 BoxCollider2D:
   m_ObjectHideFlags: 0

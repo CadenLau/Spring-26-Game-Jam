@@ -24,7 +24,8 @@ public class Bird : MonoBehaviour
     {
         if (transform.position.x < leftBound  || transform.position.x > rightBound)
         {
-            Destroy(gameObject);
+            // Destroy(gameObject);
+            gameObject.SetActive(false);
         }
         transform.position += moveDirection * speed * Time.deltaTime;
     }

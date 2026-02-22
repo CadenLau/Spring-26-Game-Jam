@@ -16,7 +16,10 @@ public class Cloud : MonoBehaviour
 
 
     // Reference to the raindrop
-    public GameObject raindrop;
+    // public GameObject raindrop;
+    public GameObject rainPool;
+
+    private BirdPool poolScript;
 
     // Reference to the lightning
     public GameObject lightning;
@@ -30,6 +33,7 @@ public class Cloud : MonoBehaviour
 
     private void Start()
     {
+        poolScript = rainPool.GetComponent<BirdPool>();
         BoxCollider2D cloudCollider = GetComponent<BoxCollider2D>();
         minX = transform.position.x - cloudCollider.bounds.size.x / 2f; 
         maxX = transform.position.x + cloudCollider.bounds.size.x / 2f; 
@@ -64,7 +68,8 @@ public class Cloud : MonoBehaviour
         if (!balancedRain)
         {
             Debug.Log("Spawning unbalanced raindrop");
-            Instantiate(raindrop, new Vector2(UnityEngine.Random.Range(minX, maxX), transform.position.y), transform.rotation);
+            // Instantiate(raindrop, new Vector2(UnityEngine.Random.Range(minX, maxX), transform.position.y), transform.rotation);
+            poolScript.spawnFromPool(new Vector2(UnityEngine.Random.Range(minX, maxX), transform.position.y), Quaternion.identity);
             return;
         }
 
@@ -78,8 +83,9 @@ public class Cloud : MonoBehaviour
         sections.RemoveAt(getSection);
         
         // Instantiate the object at the spawner's position and rotation
-        Instantiate(raindrop, new Vector2(UnityEngine.Random.Range(minX + width * (section / allSections.Count), minX + width * ((section + 1) / allSections.Count)), transform.position.y), 
-            transform.rotation);
+        // Instantiate(raindrop, new Vector2(UnityEngine.Random.Range(minX + width * (section / allSections.Count), minX + width * ((section + 1) / allSections.Count)), transform.position.y), 
+        //     transform.rotation);
+        poolScript.spawnFromPool(new Vector2(UnityEngine.Random.Range(minX + width * (section / allSections.Count), minX + width * ((section + 1) / allSections.Count)), transform.position.y), Quaternion.identity);
     }
 
     private async void SpawnLightning()
