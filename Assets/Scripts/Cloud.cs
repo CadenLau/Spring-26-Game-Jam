@@ -14,17 +14,14 @@ public class Cloud : MonoBehaviour
     [SerializeField] private float warningWidth;
     [SerializeField] private float warningDelay;
 
+    private List<float> sections = new() {0f, 1f, 2f};
+    private static readonly List<float> allSections = new() {0f, 1f, 2f};
+    // private bool balancedRain = true; // whether to spawn raindrops in a balanced way across the cloud 
+    // [SerializeField] private float unbalancedRainSpawnRate = 0.2f;
 
-    // Reference to the raindrop
-    // public GameObject raindrop;
-    public GameObject rainPool;
-
-    private BirdPool poolScript;
-
-    // Reference to the lightning
-    public GameObject lightning;
-
-    public GameObject warningBox;
+    [SerializeField] private GameObject raindrop;
+    [SerializeField] private GameObject lightning;
+    [SerializeField] private GameObject warningBox;
 
     private float minX;
     private float maxX;
@@ -33,7 +30,6 @@ public class Cloud : MonoBehaviour
 
     private void Start()
     {
-        poolScript = rainPool.GetComponent<BirdPool>();
         BoxCollider2D cloudCollider = GetComponent<BoxCollider2D>();
         minX = transform.position.x - cloudCollider.bounds.size.x / 2f; 
         maxX = transform.position.x + cloudCollider.bounds.size.x / 2f; 
@@ -58,20 +54,15 @@ public class Cloud : MonoBehaviour
         }
     }
 
-    private List<float> sections = new() {0f, 1f, 2f};
-    private static readonly List<float> allSections = new() {0f, 1f, 2f};
-    private bool balancedRain = true; // whether to spawn raindrops in a balanced way across the cloud 
-    [SerializeField] private float unbalancedRainSpawnRate = 0.2f;
     private void SpawnRaindrop()
     {
-        Debug.Log("Spawn rate: " + rainSpawnRate);
-        if (!balancedRain)
-        {
-            Debug.Log("Spawning unbalanced raindrop");
-            // Instantiate(raindrop, new Vector2(UnityEngine.Random.Range(minX, maxX), transform.position.y), transform.rotation);
-            poolScript.spawnFromPool(new Vector2(UnityEngine.Random.Range(minX, maxX), transform.position.y), Quaternion.identity);
-            return;
-        }
+        // Debug.Log("Spawn rate: " + rainSpawnRate);
+        // if (!balancedRain)
+        // {
+        //     // Debug.Log("Spawning unbalanced raindrop");
+        //     Instantiate(raindrop, new Vector2(UnityEngine.Random.Range(minX, maxX), transform.position.y), transform.rotation);
+        //     return;
+        // }
 
         float width = Math.Abs(maxX - minX);
         if (sections.Count == 0) 
@@ -83,9 +74,8 @@ public class Cloud : MonoBehaviour
         sections.RemoveAt(getSection);
         
         // Instantiate the object at the spawner's position and rotation
-        // Instantiate(raindrop, new Vector2(UnityEngine.Random.Range(minX + width * (section / allSections.Count), minX + width * ((section + 1) / allSections.Count)), transform.position.y), 
-        //     transform.rotation);
-        poolScript.spawnFromPool(new Vector2(UnityEngine.Random.Range(minX + width * (section / allSections.Count), minX + width * ((section + 1) / allSections.Count)), transform.position.y), Quaternion.identity);
+        Instantiate(raindrop, new Vector2(UnityEngine.Random.Range(minX + width * (section / allSections.Count), minX + width * ((section + 1) / allSections.Count)), transform.position.y), 
+            transform.rotation);
     }
 
     private async void SpawnLightning()
@@ -112,9 +102,9 @@ public class Cloud : MonoBehaviour
         lightningScript.end = new Vector2(maxLightningX, lightningEndY);
     }
 
-    public void SetUnbalancedRain()
-    {
-        balancedRain = false;
-        rainSpawnRate = unbalancedRainSpawnRate;
-    }
+    // public void SetUnbalancedRain()
+    // {
+    //     balancedRain = false;
+    //     rainSpawnRate = unbalancedRainSpawnRate;
+    // }
 }

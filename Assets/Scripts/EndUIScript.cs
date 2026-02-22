@@ -12,7 +12,7 @@ public class EndUIScript : MonoBehaviour
 
     private void Update()
     {
-        if (endPanel.activeSelf && playerScript.enabled == false && playerScript.Input.actions["Start"].IsPressed())
+        if (endPanel.activeSelf && playerScript.enabled == false && playerScript.Input.actions["Start"].WasPressedThisFrame())
         {
             // Reload the current scene
             UnityEngine.SceneManagement.SceneManager.LoadScene(

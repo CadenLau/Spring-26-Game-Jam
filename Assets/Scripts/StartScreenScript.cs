@@ -5,7 +5,9 @@ public class StartScreenScript : MonoBehaviour
     [SerializeField] private PlayerScript playerScript;
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private GameObject startScreen;
-    [SerializeField] private Cloud cloudScript;
+    // [SerializeField] private Cloud cloudScript;
+    [SerializeField] private float timeBeforeStart = 5f;
+    private float timer = 0f;
 
     private void Awake()
     {
@@ -15,19 +17,22 @@ public class StartScreenScript : MonoBehaviour
 
     void Update()
     {
-        if (playerScript.Input.actions["Start"].IsPressed())
+        timer += Time.deltaTime;
+
+        if (timer > timeBeforeStart || playerScript.Input.actions["Start"].WasPressedThisFrame())
         {
             loadingScreen.SetActive(true);
             loadingScreen.GetComponent<LoadingScript>().enabled = true;
             startScreen.SetActive(false);
             this.enabled = false;
-        } else if (playerScript.Input.actions["Unbalanced"].IsPressed())
-        {
-            cloudScript.SetUnbalancedRain();
-            loadingScreen.SetActive(true);
-            loadingScreen.GetComponent<LoadingScript>().enabled = true;
-            startScreen.SetActive(false);
-            this.enabled = false;
-        }
+        } 
+        // else if (playerScript.Input.actions["Unbalanced"].WasPressedThisFrame())
+        // {
+        //     cloudScript.SetUnbalancedRain();
+        //     loadingScreen.SetActive(true);
+        //     loadingScreen.GetComponent<LoadingScript>().enabled = true;
+        //     startScreen.SetActive(false);
+        //     this.enabled = false;
+        // }
     }
 }
