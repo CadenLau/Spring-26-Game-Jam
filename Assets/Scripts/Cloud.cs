@@ -60,10 +60,10 @@ public class Cloud : MonoBehaviour
     [SerializeField] private float unbalancedRainSpawnRate = 0.2f;
     private void SpawnRaindrop()
     {
-        Debug.Log("Spawn rate: " + rainSpawnRate);
+        // Debug.Log("Spawn rate: " + rainSpawnRate);
         if (!balancedRain)
         {
-            Debug.Log("Spawning unbalanced raindrop");
+            // Debug.Log("Spawning unbalanced raindrop");
             Instantiate(raindrop, new Vector2(UnityEngine.Random.Range(minX, maxX), transform.position.y), transform.rotation);
             return;
         }
