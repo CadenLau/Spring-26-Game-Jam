@@ -14,6 +14,6 @@ public class BackgroundRainScript : MonoBehaviour
             Destroy(gameObject);
         }
 
-        transform.Translate(fallRate * Time.fixedDeltaTime * new Vector3(-0.1f, -1, 0));
+        transform.Translate(fallRate * Time.deltaTime * new Vector3(-0.1f, -1, 0));
     }
 }
