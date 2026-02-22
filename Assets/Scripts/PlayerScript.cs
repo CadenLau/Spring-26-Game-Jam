@@ -82,9 +82,10 @@ public class PlayerScript : MonoBehaviour
         {
             rb.AddForce(new Vector2(windForce, 0), ForceMode2D.Force);
         }
-        if (isDashing || isStunned) return;
+        if (isDashing) return;
 
         float targetSpeed = moveDirection.x * moveSpeed;
+        if (isStunned) targetSpeed = 0;
         float speedDiff = targetSpeed - rb.linearVelocity.x;
 
         float accelRate = Mathf.Abs(targetSpeed) > 0.05f
