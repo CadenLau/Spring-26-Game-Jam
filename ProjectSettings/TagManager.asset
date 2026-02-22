@@ -10,6 +10,7 @@ TagManager:
   - Raindrop
   - Wind
   - Cloud
+  - WindReverse
   layers:
   - Default
   - TransparentFX

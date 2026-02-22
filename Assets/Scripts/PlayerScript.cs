@@ -34,6 +34,7 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField] private float windForce = 5f;
     private bool applyWind;
+    private bool applyWindReverse;
 
     [SerializeField] private EndUIScript endUIScript;
 
@@ -81,6 +82,11 @@ public class PlayerScript : MonoBehaviour
         if (applyWind)
         {
             rb.AddForce(new Vector2(windForce, 0), ForceMode2D.Force);
+        }
+        else if (applyWindReverse)
+        {
+            // Debug.Log("reverse wind");
+            rb.AddForce(new Vector2(-windForce, 0), ForceMode2D.Force);
         }
         if (isDashing) return;
 
@@ -132,6 +138,12 @@ public class PlayerScript : MonoBehaviour
         else if (collision.CompareTag("Wind"))
         {
             applyWind = true;
+            applyWindReverse = false;
+        }
+        else if (collision.CompareTag("WindReverse"))
+        {
+            applyWind = false;
+            applyWindReverse = true;
         }
     }
 
@@ -144,6 +156,12 @@ public class PlayerScript : MonoBehaviour
         else if (collision.CompareTag("Wind"))
         {
             applyWind = true;
+            applyWindReverse = false;
+        }
+        else if (collision.CompareTag("WindReverse"))
+        {
+            applyWind = false;
+            applyWindReverse = true;
         }
     }
 
@@ -156,6 +174,10 @@ public class PlayerScript : MonoBehaviour
         else if (collision.CompareTag("Wind"))
         {
             applyWind = false;
+        }
+        else if (collision.CompareTag("WindReverse"))
+        {
+            applyWindReverse = false;
         }
     }
 

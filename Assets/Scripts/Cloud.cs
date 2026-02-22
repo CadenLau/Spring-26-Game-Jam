@@ -14,14 +14,14 @@ public class Cloud : MonoBehaviour
     [SerializeField] private float warningWidth;
     [SerializeField] private float warningDelay;
 
+    private List<float> sections = new() {0f, 1f, 2f};
+    private static readonly List<float> allSections = new() {0f, 1f, 2f};
+    // private bool balancedRain = true; // whether to spawn raindrops in a balanced way across the cloud 
+    // [SerializeField] private float unbalancedRainSpawnRate = 0.2f;
 
-    // Reference to the raindrop
-    public GameObject raindrop;
-
-    // Reference to the lightning
-    public GameObject lightning;
-
-    public GameObject warningBox;
+    [SerializeField] private GameObject raindrop;
+    [SerializeField] private GameObject lightning;
+    [SerializeField] private GameObject warningBox;
 
     private float minX;
     private float maxX;
@@ -54,19 +54,15 @@ public class Cloud : MonoBehaviour
         }
     }
 
-    private List<float> sections = new() {0f, 1f, 2f};
-    private static readonly List<float> allSections = new() {0f, 1f, 2f};
-    private bool balancedRain = true; // whether to spawn raindrops in a balanced way across the cloud 
-    [SerializeField] private float unbalancedRainSpawnRate = 0.2f;
     private void SpawnRaindrop()
     {
-        Debug.Log("Spawn rate: " + rainSpawnRate);
-        if (!balancedRain)
-        {
-            Debug.Log("Spawning unbalanced raindrop");
-            Instantiate(raindrop, new Vector2(UnityEngine.Random.Range(minX, maxX), transform.position.y), transform.rotation);
-            return;
-        }
+        // Debug.Log("Spawn rate: " + rainSpawnRate);
+        // if (!balancedRain)
+        // {
+        //     // Debug.Log("Spawning unbalanced raindrop");
+        //     Instantiate(raindrop, new Vector2(UnityEngine.Random.Range(minX, maxX), transform.position.y), transform.rotation);
+        //     return;
+        // }
 
         float width = Math.Abs(maxX - minX);
         if (sections.Count == 0) 
@@ -106,9 +102,9 @@ public class Cloud : MonoBehaviour
         lightningScript.end = new Vector2(maxLightningX, lightningEndY);
     }
 
-    public void SetUnbalancedRain()
-    {
-        balancedRain = false;
-        rainSpawnRate = unbalancedRainSpawnRate;
-    }
+    // public void SetUnbalancedRain()
+    // {
+    //     balancedRain = false;
+    //     rainSpawnRate = unbalancedRainSpawnRate;
+    // }
 }
