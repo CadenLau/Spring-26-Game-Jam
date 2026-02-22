@@ -5,15 +5,19 @@ TagManager:
   serializedVersion: 3
   tags:
   - Ground
-  - Puddle
+  - Lightning
+  - Bird
+  - Raindrop
+  - Wind
+  - Cloud
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Ground
+  - 
   - Water
   - UI
-  - 
+  - Background
   - 
   - 
   - 

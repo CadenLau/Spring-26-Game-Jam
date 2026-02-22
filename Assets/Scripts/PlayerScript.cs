@@ -1,111 +1,172 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class PlayerScript : MonoBehaviour
 {
-    [Header("References")]
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Transform arrowTransform;
-
-    [Header("Movement")]
-    [SerializeField] private float moveSpeed = 20f;
-    [SerializeField] private float accelSpeed = 200f;
-    [SerializeField] private float decelSpeed = 200f;
-
-    [Header("Dash")]
-    [SerializeField] private float dashSpeed = 20f;
-    [SerializeField] private float dashPauseDuration = 0.6f;
-    [SerializeField] private float dashDuration = 0.2f;
-    [SerializeField] private float arrowDistance = 1.5f;
-    [SerializeField] private float aimTimeScale = 0.05f;
-
-    [Header("Gravity")]
-    [SerializeField] private float gravityScale = 3f;
-    [SerializeField] private float gravityScalingFactor = 2f;
-
-    [Header("Dash Enable")]
-    [SerializeField] private string dashZoneTag = "Puddle"; // or "DashZone"
-
-    private PlayerInput playerInput;
-    private InputAction moveAction;
-    private InputAction jumpAction;
-    private InputAction lookAction;
 
     private Vector2 moveDirection;
-    private bool canDash;
-    private bool isDashing;
-    private bool isChoosingDirection;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float accelSpeed;
+    [SerializeField] private float decelSpeed;
+    [SerializeField] private float dashSpeed;
+    [SerializeField] private float maxFallSpeed = 20f;
 
+    private Vector2 dashDirection;
+    private bool canDash = false;
+    private bool isDashing;
+    [SerializeField] private float dashPauseDuration = 1f;
+    [SerializeField] private float dashDuration = 0.2f;
+    private bool isChoosingDirection;
     private float originalGravity;
-    private RigidbodyConstraints2D originalConstraints;
+
+    [SerializeField] private Transform arrowTransform;
+    [SerializeField] private float arrowDistance = 1.5f;
+
+    [SerializeField] private float gravityScale;
+    [SerializeField] private float gravityScalingFactor;
+
+    [SerializeField] private float stunTime = 1f;
+    private bool isStunned;
+
+    [SerializeField] private float windForce = 5f;
+    private bool applyWind;
+
+    [SerializeField] private EndUIScript endUIScript;
+
+    private PlayerInput playerInput;
+    public PlayerInput Input => playerInput;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
-
-        if (rb == null) rb = GetComponent<Rigidbody2D>();
-
-        // Cache actions once (and avoid repeated string lookup)
-        moveAction = playerInput.actions["Move"];
-        jumpAction = playerInput.actions["Jump"];
-        lookAction = playerInput.actions["Look"];
-
-        // Basic sanity
-        if (arrowTransform != null)
-            arrowTransform.gameObject.SetActive(false);
-
-        rb.gravityScale = gravityScale;
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation; // keep upright
     }
 
     private void OnEnable()
     {
-        jumpAction.performed += Dash;
+        playerInput.actions["Jump"].performed += Dash;
     }
 
-    private void OnDisable()
+    private void Start()
     {
-        jumpAction.performed -= Dash;
+        rb.gravityScale = gravityScale;
     }
 
     private void Update()
     {
-        moveDirection = moveAction.ReadValue<Vector2>();
+        moveDirection = playerInput.actions["Move"].ReadValue<Vector2>();
+    }
+
+    void LateUpdate()
+    {
+        Vector3 pos = transform.position;
+
+        Vector3 left = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 right = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0));
+
+        pos.x = Mathf.Clamp(pos.x, left.x + transform.localScale.x / 2f, right.x - transform.localScale.x / 2f);
+
+        transform.position = pos;
     }
 
     private void FixedUpdate()
     {
-        if (isDashing || isChoosingDirection) return;
+        if (rb.linearVelocityY < -maxFallSpeed)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocityX, -maxFallSpeed);
+        }
+        if (applyWind)
+        {
+            rb.AddForce(new Vector2(windForce, 0), ForceMode2D.Force);
+        }
+        if (isDashing) return;
 
         float targetSpeed = moveDirection.x * moveSpeed;
+        if (isStunned) targetSpeed = 0;
         float speedDiff = targetSpeed - rb.linearVelocity.x;
 
-        float accelRate = Mathf.Abs(targetSpeed) > 0.05f ? accelSpeed : decelSpeed;
-        float movement = speedDiff * accelRate * Time.fixedDeltaTime;
+        float accelRate = Mathf.Abs(targetSpeed) > 0.05f
+            ? accelSpeed
+            : decelSpeed;
 
+        float movement = speedDiff * accelRate * Time.fixedDeltaTime;
         rb.AddForce(Vector2.right * movement, ForceMode2D.Force);
 
-        // Gravity scaling (faster fall)
-        rb.gravityScale = (rb.linearVelocity.y < 0) ? gravityScale * gravityScalingFactor : gravityScale;
+        // Gravity scaling
+        if (rb.linearVelocity.y < 0)
+        {
+            rb.gravityScale = gravityScale * gravityScalingFactor;
+        }
+        else
+        {
+            rb.gravityScale = gravityScale;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Cloud"))
+        {
+            // Trigger win
+            GetComponent<SpriteRenderer>().enabled = false; // Hide player sprite
+            enabled = false; // Disable player control
+            rb.linearVelocity = Vector2.zero; // Stop player movement
+            rb.gravityScale = 0; // Disable gravity
+            endUIScript.ShowEndScreen();
+        } 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(dashZoneTag))
-            canDash = true;
+        if (collision.CompareTag("Ground") || collision.CompareTag("Raindrop"))
+        {
+                    canDash = true;
+        } 
+        else if (collision.CompareTag("Lightning"))
+        {
+            LightningHit();
+        } 
+        else if (collision.CompareTag("Wind"))
+        {
+            applyWind = true;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Ground") || collision.CompareTag("Raindrop"))
+        {
+                    canDash = true;
+        } 
+        else if (collision.CompareTag("Wind"))
+        {
+            applyWind = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag(dashZoneTag))
-            canDash = false;
+        if (collision.CompareTag("Ground") || collision.CompareTag("Raindrop"))
+        {
+                    canDash = false;
+        } 
+        else if (collision.CompareTag("Wind"))
+        {
+            applyWind = false;
+        }
+    }
+
+    private void OnDisable()
+    {
+        playerInput.actions["Jump"].performed -= Dash;
     }
 
     private void Dash(InputAction.CallbackContext context)
     {
-        if (!canDash || isChoosingDirection || arrowTransform == null) return;
+        if (!canDash || isChoosingDirection || isStunned) return;
         StartCoroutine(DashCoroutine());
     }
 
@@ -113,60 +174,74 @@ public class PlayerScript : MonoBehaviour
     {
         isChoosingDirection = true;
 
-        // Freeze motion without disabling simulation
+        // Freeze physics
         originalGravity = rb.gravityScale;
-        originalConstraints = rb.constraints;
-
+        rb.gravityScale = 0;
         rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0f;
-        rb.gravityScale = 0f;
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        rb.simulated = false;
 
-        // Slow time for aiming (use unscaled time in loop)
-        float prevTimeScale = Time.timeScale;
-        Time.timeScale = aimTimeScale;
+        // Slow time (a lot)
+        Time.timeScale = 0.03f;
 
-        arrowTransform.gameObject.SetActive(true);
-
-        Vector2 direction = Vector2.right;
         float timer = 0f;
 
+        arrowTransform.gameObject.SetActive(true);
+        Vector2 direction = Vector2.right;
+
+        // Wait for player to choose direction or dash immediately if they press again
         while (timer < dashPauseDuration)
         {
-            Vector2 pointerScreenPos = lookAction.ReadValue<Vector2>();
-            Vector2 pointerWorldPos = Camera.main.ScreenToWorldPoint(pointerScreenPos);
+            // Get direction
+            Vector2 mouseScreenPos = playerInput.actions["Look"].ReadValue<Vector2>();
+            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
 
-            direction = (pointerWorldPos - (Vector2)transform.position).normalized;
+            direction = (mouseWorldPos - (Vector2)transform.position).normalized;
 
-            // rotate arrow to point towards pointer
+            // Rotate arrow
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             arrowTransform.rotation = Quaternion.Euler(0, 0, angle);
-            // position arrow at fixed distance in that direction
+
+            // Position arrow
             arrowTransform.position = transform.position + (Vector3)(direction * arrowDistance);
 
-            // Press again to dash early
-            if (jumpAction.WasPressedThisFrame() && timer > 0.1f)
+            // Dash immediately if player presses again
+            if (playerInput.actions["Jump"].WasPressedThisFrame() && timer > 0.1f)
                 break;
 
             timer += Time.unscaledDeltaTime;
+
             yield return null;
         }
 
         arrowTransform.gameObject.SetActive(false);
 
-        // Restore time
-        Time.timeScale = prevTimeScale;
+        // Resume time
+        Time.timeScale = 1f;
 
-        // Dash
         isChoosingDirection = false;
         isDashing = true;
 
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        // Unfreeze physics
         rb.gravityScale = originalGravity;
         rb.linearVelocity = direction * dashSpeed;
+        rb.simulated = true;
 
-        yield return new WaitForSecondsRealtime(dashDuration);
+        yield return new WaitForSeconds(dashDuration);
 
         isDashing = false;
+    }
+
+    public void LightningHit()
+    {
+        isStunned = true;
+        moveDirection = Vector2.zero;
+        GetComponent<SpriteRenderer>().color = Color.yellow; // Change color to indicate stun
+        Invoke(nameof(EndStun), stunTime);
+    }
+
+    private void EndStun()
+    {
+        isStunned = false;
+        GetComponent<SpriteRenderer>().color = Color.white; // Revert color
     }
 }

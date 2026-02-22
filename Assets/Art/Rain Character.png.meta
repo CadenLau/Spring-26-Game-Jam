@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2829f1f32454146c484d6b8f9a445dcd
+guid: 2356483cdd7df49ac9a1310d2d5f72b7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2442568440002026451
-    second: Rain Character_0
+      213: 1132624407008761117
+    second: Rain Character 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Rain Character_0
+      name: Rain Character 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d246912f1f04a1ed0800000000000000
-      internalID: -2442568440002026451
+      spriteID: d15d1b3b5e3e7bf00800000000000000
+      internalID: 1132624407008761117
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Rain Character_0: -2442568440002026451
+      Rain Character 1_0: 1132624407008761117
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
