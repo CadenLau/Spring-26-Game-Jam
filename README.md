@@ -9,7 +9,7 @@ The best way to experience Drizzle Dash is to play it yourself.
 
 ## Screenshots
 #### Video
-[Watch video here](https://github.com/CadenLau/Spring-26-Game-Jam/raw/main/gameplay/game.mp4)
+[Watch video here](https://github.com/CadenLau/Spring-26-Game-Jam/raw/main/gameplay/game.mov)
 #### Gameplay
 ![Gameplay1](gameplay/game1.jpeg)
 ![Gameplay2](gameplay/game2.jpeg)
